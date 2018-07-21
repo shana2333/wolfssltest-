@@ -1,0 +1,38 @@
+/* Benchmark_Enclave.edl - Top EDL file. */
+enclave {
+    include "wolfssl/wolfcrypt/settings.h"    
+    include "wolfssl/options.h"
+
+    include "wolfssl/wolfcrypt/rsa.h"
+    include "stdio.h"
+    include "stdlib.h"
+    include "unistd.h"
+    include "stdarg.h"
+
+
+
+
+
+    trusted {
+       
+
+        public int enc_wc_InitRng( [user_check] RNG* rng);
+        public int enc_wc_InitRsaKey( [user_check] RsaKey* rsakey);
+        public int enc_wc_MakeRsaKey( [user_check] RsaKey* key, int size, long e, [user_check] RNG* rng);
+
+               
+
+
+
+		public int enc_wolfSSL_Cleanup(void);
+    };
+
+    untrusted {
+        /* define OCALLs here. */
+        void ocall_print_string([in, string] const char* str);
+        void ocall_current_time([out] double* time);
+        void ocall_low_res_time([out] int* time);
+        size_t ocall_recv(int sockfd, [out, size=len] void *buf, size_t len, int flags) propagate_errno;
+        size_t ocall_send(int sockfd, [in, size=len] const void *buf, size_t len, int flags) propagate_errno;
+    };
+};
