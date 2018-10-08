@@ -1,0 +1,143 @@
+package test;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
+public class Test {
+    public static class MyClass {
+        private String theField;
+        
+        public MyClass(String s) {
+        	this.theField = s;
+        }
+        
+    }
+
+    public static void main(String[] args) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+    	System.out.println(evalRPN("1 2 3.5"));
+    }
+    
+    public static float evalRPN(String s) {
+    	String[] tokens = s.split(" ");
+        Stack<Float> stack=new Stack<Float>();
+        for(int i=0;i<tokens.length;i++) {
+            try {
+                float num=Float.parseFloat(tokens[i]);
+                stack.add(num);
+            } catch (Exception e) {
+                // TODO: handle exception
+                Float a=stack.pop();
+                Float b=stack.pop();
+                stack.add(calculate(a,b,tokens[i]));
+            }
+        }
+        return stack.pop();    
+    }
+    
+    public static  float calculate(float a, float b,String opera) {
+        switch(opera) {
+        case "+":return b+a;
+        case "-":return b-a;
+        case "*":return b*a;
+        case "/":return b/a;
+        default:return 0;
+        }        
+    }
+
+    		
+//    private static void testP(String s) {
+//    	String str[] = s.split(" ");
+//    	List<String> list = new ArrayList<>();
+//    	list = Arrays.asList(str);
+//    	Stack<String> stack = new Stack<>();
+//    	stack.addAll(list);
+//    	System.out.println(stack.indexOf('2'));
+//    	stack.p
+//    	System.out.println(stack);
+//    }
+    
+    private static String test2(int number) {
+    	StringBuilder numbers = new StringBuilder(Integer.toString(number));
+    	int len = numbers.length();
+    	if(len>1) {
+    		char lastTwo = numbers.charAt(len-2);
+    		if(lastTwo != '1') {
+    			char last = numbers.charAt(len-1);
+    			if(last == '1') {
+    				return numbers.append("st").toString();
+    			}else if(last == '2') {
+    				return numbers.append("nd").toString();
+    			}else if(last == '3') {
+    				return numbers.append("rd").toString();
+    			}else {
+    				return numbers.append("th").toString();
+    			}
+    		}else {
+    			return numbers.append("th").toString();
+    		}
+    	}else {
+    		char last = numbers.charAt(len-1);
+    		if(last == '1') {
+				return numbers.append("st").toString();
+			}else if(last == '2') {
+				return numbers.append("nd").toString();
+			}else if(last == '3') {
+				return numbers.append("rd").toString();
+			}else {
+				return numbers.append("th").toString();
+			}
+    	}
+    }
+    
+    private static String test3(int number) {
+    	String numbers = Integer.toString(number);
+    	int len = numbers.length();
+    	if(len>1) {
+    		char lastTwo = numbers.charAt(len-2);
+    		if(lastTwo != '1') {
+    			char last = numbers.charAt(len-1);
+    			if(last == '1') {
+    				return numbers + "st";
+    			}else if(last == '2') {
+    				return numbers + "nd";
+    			}else if(last == '3') {
+    				return numbers + "rd";
+    			}else {
+    				return numbers + "th";
+    			}
+    		}else {
+    			return numbers + "th";
+    		}
+    	}else {
+    		char last = numbers.charAt(len-1);
+    		if(last == '1') {
+    			return numbers + "st";
+			}else if(last == '2') {
+				return numbers + "nd";
+			}else if(last == '3') {
+				return numbers + "rd";
+			}else {
+				return numbers + "th";
+			}
+    	}
+    }
+    
+    private static String test(String s) {;
+    	
+    	StringBuilder numbers = new StringBuilder(s);
+    	int size = numbers.length();
+		int lastFour = size - 4;
+    	for(int i=0; i<size; i++) {
+
+    		if(i!=0 && i<lastFour && Character.isDigit(numbers.charAt(i))) {
+    			numbers.setCharAt(i, '#');
+    		}
+    		
+    				
+    	}
+    	return numbers.toString();
+    }
+}
